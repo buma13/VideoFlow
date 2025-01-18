@@ -32,7 +32,7 @@ We provide pretrained [models](https://drive.google.com/drive/folders/16YqDD_IQp
 ## Inference & Visualization
 Download VideoFlow_ckpt and put it in the root dir. Run the following command:
 ```shell
-python -u inference.py --mode MOF --seq_dir demo_input_images --vis_dir demo_flow_vis
+python -u inference.py --mode MOF --scene_dir ~/data/nersemble_preprocessed/407_tongue -r 2
 ```
 If your input only contain three frames, we recommend to use the BOF model:
 ```shell

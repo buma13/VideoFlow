@@ -4,20 +4,13 @@ sys.path.append('core')
 from PIL import Image
 import argparse
 import os
-import time
 import numpy as np
 import torch
-import torch.nn.functional as F
-import matplotlib.pyplot as plt
-from core.utils.misc import process_cfg
 from utils import flow_viz
 
 from core.Networks import build_network
 
-from utils import frame_utils
-from utils.utils import InputPadder, forward_interpolate
-import itertools
-import imageio
+from utils.utils import InputPadder
 
 def prepare_image(cfg, resize_factor = 1):
     print(f"preparing image...")

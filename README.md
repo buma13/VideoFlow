@@ -10,9 +10,10 @@ https://github.com/XiaoyuShi97/VideoFlow/assets/25840016/8121acc6-b874-411e-86de
 
 ## Requirements
 ```shell
-conda create --name videoflow
+conda create -n videoflow python=3.7
 conda activate videoflow
-conda install pytorch=1.6.0 torchvision=0.7.0 cudatoolkit=10.1 matplotlib tensorboard scipy opencv-python -c pytorch
+pip install torch torchvision --extra-index-url https://download.pytorch.org/whl/cu118
+pip install matplotlib tensorboard scipy opencv-python
 pip install yacs loguru einops timm==0.4.12 imageio
 ```
 
@@ -107,7 +108,12 @@ python -u evaluate_BOFNet.py --dataset=kitti_submission
 ## (Optional & Inference Only) Efficent Implementation
 You can optionally use RAFT alternate (efficent) implementation by compiling the provided cuda extension and change the [`corr_fn`](https://github.com/XiaoyuShi97/VideoFlow/blob/main/configs/multiframes_sintel_submission.py#L32) flag to be `efficient` in config files.
 ```Shell
-cd alt_cuda_corr && python setup.py install && cd ..
+cd alt_cuda_corr
+conda env config vars set CUDA_HOME=$CONDA_PREFIX
+conda deactivate
+conda activate videoflow
+python setup.py install
+cd ..
 ```
 Note that this implementation is somewhat slower than all-pairs, but uses significantly less GPU memory during the forward pass. And it does not implement backward function, so do not use it in training.
 

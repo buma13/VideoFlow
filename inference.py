@@ -81,6 +81,9 @@ def vis_pre(flow_pre, vis_dir, original_resolution, offset = 0):
         image = image.resize((original_resolution['width'], original_resolution['height']), resample=Image.Resampling.BOX)
         image.save('{}/{:04}.png'.format(vis_dir, idx + offset))
         
+        np.save('{}/{:04}.npy'.format(vis_dir, idx + offset), flow_pre[idx].numpy())
+        # todo: implement alpha mask for array
+
         # image = np.array(image).astype(np.uint8)[..., :3]
         # alpha_mask = Image.open(os.path.join(alpha_masks_path, image_names[idx]))
         # alpha_mask = np.array(alpha_mask).astype(np.uint8)[..., :3]
@@ -154,6 +157,7 @@ if __name__ == '__main__':
         images, image_names = prepare_image(cfg, camera_path)
 
         window_size = 9
+        # window_size = 63 # for -r 4
         step_size = window_size-2
         
         prune_last = False
@@ -173,6 +177,7 @@ if __name__ == '__main__':
             os.remove(os.path.join(output_path, image_list[-1]))
         
         apply_alpha_masks(output_path, alpha_masks_path)
+        apply_alpha_masks(camera_path, alpha_masks_path)
         
         # Create video
         length_original_images = len([img for img in os.listdir(camera_path) if img.endswith(".jpg") or img.endswith(".png")])
